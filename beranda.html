@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selamat Ulang Tahun 🎉</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { margin:0; overflow-y:auto; } /* sekarang bisa scroll */
+    canvas { position:fixed; inset:0; pointer-events:none; } /* animasi tetap di belakang */
+  </style>
+</head>
+<body class="bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-600 text-white">
+
+  <!-- Canvas kembang api -->
+  <canvas id="fireworks"></canvas>
+
+  <!-- SECTION 1 (Hero) -->
+  <section class="min-h-screen flex items-center justify-center p-6">
+    <div class="text-center">
+      <div class="bg-white/90 text-black backdrop-blur-md rounded-3xl shadow-2xl p-10 max-w-xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">🎂 Selamat Ulang Tahun 🎂</h1>
+        <p id="nameText" class="text-xl mb-6">Semoga panjang umur & sukses selalu!</p>
+        <button onclick="startParty()" class="px-6 py-3 rounded-2xl shadow-lg bg-pink-500 hover:bg-pink-600 text-white font-semibold transition">
+          klik teh ! 🎉
+        </button>
+      </div>
+      <p class="mt-6 animate-bounce">⬇ Scroll ke bawah ⬇</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section class="min-h-screen flex items-center justify-center p-10 text-center">
+    <div class="bg-white/20 backdrop-blur-md rounded-3xl p-10 max-w-2xl">
+      <h2 class="text-3xl font-bold mb-4">✨ Doa Terbaik untuk teh viaa ✨</h2>
+      <p class="text-lg">Semoga sehat selalu, di lancarin rezekinya, dan semua impian teteh bisa tercapai, intinya hendy doa in yang terbaik buat teh viaa "_"</p>
+      <img src="https://github.com/hendy125/happy-birthday/blob/main/foto.jpeg?raw=true" alt="Foto Viaa" class="mt-6 rounded-xl shadow-lg mx-auto" />
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section class="min-h-screen flex items-center justify-center p-10 text-center">
+    <div class="bg-white/20 backdrop-blur-md rounded-3xl p-10 max-w-2xl">
+      <h2 class="text-3xl font-bold mb-4">🎁 Pesan Spesial dari hendy buat viaa 🎁</h2>
+      <p class="text-lg">jangan lupa bantu cariin hendy jodoh yaa >_< !</p>
+      <center><img src="https://github.com/hendy125/happy-birthday/blob/main/WhatsApp%20Image%202026-02-10%20at%2021.49.31.jpeg?raw=true" alt="Pesan Spesial" class="rounded-xl shadow-lg mx-auto" /></center>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section class="min-h-screen flex items-center justify-center p-10 text-center">
+    <div class="bg-white/20 backdrop-blur-md rounded-3xl p-10 max-w-2xl">
+      <h2 class="text-3xl font-bold mb-4">🎁 Klik tombol di bawah teh 🎁</h2>
+      <p><button onclick="showMessage()" class="px-6 py-3 rounded-2xl shadow-lg bg-pink-500 hover:bg-pink-600 text-white font-semibold transition"><a href="index.html">Klik disini</a></button></p>
+    </div>
+  </section>
+
+
+  <script>
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+
+    function resize(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    const particles = [];
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.speedX = (Math.random() - 0.5) * 6;
+        this.speedY = (Math.random() - 0.5) * 6;
+        this.size = Math.random() * 3 + 2;
+        this.color = color;
+        this.life = 100;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life--;
+      }
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function createFirework() {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height * 0.6;
+      const color = `hsl(${Math.random()*360}, 100%, 60%)`;
+      for (let i = 0; i < 50; i++) particles.push(new Particle(x, y, color));
+    }
+
+    function animate() {
+      ctx.fillStyle = "rgba(0,0,0,0.2)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.update();
+        p.draw();
+        if (p.life <= 0) particles.splice(i, 1);
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    function startParty() {
+      setInterval(createFirework, 500);
+      document.getElementById("nameText").innerText = "Semoga semua impianmu tercapai! 🎉✨";
+    }
+
+    const name = prompt("Masukkan nama yang berulang tahun:");
+    if(name) document.getElementById("nameText").innerText = `Selamat ulang tahun ${name}! Semoga bahagia selalu 🎈`;
+  </script>
+
+</body>
+</html>
+
